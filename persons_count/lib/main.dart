@@ -30,31 +30,44 @@ class _HomePageState extends State<HomePage> {
   Color backgroundButtonExit = Colors.white;
   Color backgroundButtonEnter = Colors.white;
 
+  @override
+  void initState() {
+    super.initState();
+    colorState();
+  }
+
   void increment() {
-    setState(() => count++);
     if (localLotado) {
       count = 20;
+    } else {
+      setState(() => count++);
     }
+    colorState();
   }
 
   void decrement() {
-    setState(() => count--);
-    if (count < 0) {
+    if (localVazio) {
       count = 0;
+    } else {
+      setState(() => count--);
     }
+    colorState();
   }
 
-  List<Color> colorState() {
-    if (localVazio) {
-      setState(() => backgroundButtonExit = Colors.white.withOpacity(0.2));
-      setState(() => backgroundButtonEnter = Colors.white);
-    }
+  void colorState() {
+    bool isButtonExit = !localLotado && localVazio;
+    bool isButtonEnter = localLotado && !localVazio;
 
-    List<Color> backgroundButton = [
-      backgroundButtonEnter,
-      backgroundButtonExit
-    ];
-    return backgroundButton;
+    Color colorDisable = Colors.white.withOpacity(0.2);
+    Color colorEnable = Colors.white;
+
+    setState(() => isButtonExit
+        ? backgroundButtonExit = colorDisable
+        : backgroundButtonExit = colorEnable);
+
+    setState(() => isButtonEnter
+        ? backgroundButtonEnter = colorDisable
+        : backgroundButtonEnter = colorEnable);
   }
 
   @override
@@ -90,9 +103,9 @@ class _HomePageState extends State<HomePage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               TextButton(
-                onPressed: decrement,
+                onPressed: () => decrement(),
                 style: TextButton.styleFrom(
-                  backgroundColor: colorState()[1],
+                  backgroundColor: backgroundButtonExit,
                   fixedSize: const Size(80, 80),
                   foregroundColor: Colors.black,
                   shape: RoundedRectangleBorder(
@@ -114,9 +127,9 @@ class _HomePageState extends State<HomePage> {
               ),
               const SizedBox(width: 20),
               TextButton(
-                onPressed: increment,
+                onPressed: () => increment(),
                 style: TextButton.styleFrom(
-                  backgroundColor: colorState(),
+                  backgroundColor: backgroundButtonEnter,
                   fixedSize: const Size(80, 80),
                   foregroundColor: Colors.black,
                   shape: RoundedRectangleBorder(
