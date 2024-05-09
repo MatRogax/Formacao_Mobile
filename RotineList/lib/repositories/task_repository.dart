@@ -5,11 +5,11 @@ import '../Pages/ListPage/models/TaskDescription.dart';
 const taskListKey = 'Task_List';
 
 class TaskRepository {
+
   late SharedPreferences sharedPreferences;
 
-
   Future<List<TaskDescription>> getTaskList() async {
-    sharedPreferences = await SharedPreferences.getInstance();
+      sharedPreferences = await SharedPreferences.getInstance();
       final String jsonString = sharedPreferences.getString(taskListKey) ?? '[]';
       final List jsonDecoded = json.decode(jsonString) as List;
       return jsonDecoded.map((e) => TaskDescription.fromJson(e)).toList();

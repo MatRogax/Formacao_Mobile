@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:listrotine/repositories/task_repository.dart';
-
 import '../../constants/Utils.dart';
 import '../../widgets/task_List_Itens.dart';
 import 'models/TaskDescription.dart';
