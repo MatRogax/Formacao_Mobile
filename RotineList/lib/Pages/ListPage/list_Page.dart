@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:listrotine/repositories/task_repository.dart';
+
 import '../../constants/Utils.dart';
 import '../../widgets/task_List_Itens.dart';
 import 'models/TaskDescription.dart';
@@ -32,79 +33,103 @@ class _ListPageState extends State<ListPage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        backgroundColor: Colors.black,
         body: Center(
           child: Padding(
             padding: const EdgeInsets.all(16),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Row(
+            child: Container(
+              //height: 500,
+              padding: const EdgeInsets.only(top: 50, bottom: 50),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
                   children: [
-                    Expanded(
-                      child: TextField(
-                        controller: taskController,
-                        decoration: InputDecoration(
-                          border: const OutlineInputBorder(),
-                          labelText: 'Adicione uma Tarefa',
-                          hintText: 'Ex: Reunião ás 14 horas',
-                          errorText: errorText,
-                          focusedBorder:const OutlineInputBorder(
-                            borderSide: BorderSide(
-                              color: Colors.blue,
-                              width: 2,
+                    const Flexible(
+                      child: Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Text(
+                          "Lista de tarefas",
+                          textAlign: TextAlign.start,
+                          style: TextStyle(
+                            fontSize: 25,
+                            fontWeight: FontWeight.w800,
+                          ),
+                        ),
+                      ),
+                    ),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: TextField(
+                            controller: taskController,
+                            decoration: InputDecoration(
+                                border: const OutlineInputBorder(),
+                                labelText: 'Adicione uma Tarefa',
+                                hintText: 'Ex: Reunião ás 14 horas',
+                                errorText: errorText,
+                                focusedBorder: const OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: Colors.blue,
+                                    width: 2,
+                                  ),
+                                )),
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        ElevatedButton(
+                          onPressed: () => buttonTaskAction(),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.blue,
+                            padding: const EdgeInsets.all(14),
+                          ),
+                          child: const Icon(
+                            Icons.add,
+                            color: Colors.white,
+                            size: 30,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 16),
+                    Flexible(
+                      child: ListView(
+                        shrinkWrap: true,
+                        scrollDirection: Axis.vertical,
+                        addAutomaticKeepAlives: false,
+                        children: [
+                          for (TaskDescription task in tasks)
+                            TaskListItens(
+                              task: task,
+                              deleteTask: deleteTask,
                             ),
-                          )
-                        ),
+                        ],
                       ),
                     ),
-                    const SizedBox(width: 8),
-                    ElevatedButton(
-                      onPressed: () => buttonTaskAction(),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.blue,
-                        padding: const EdgeInsets.all(14),
-                      ),
-                      child: const Icon(
-                        Icons.add,
-                        color: Colors.white,
-                        size: 30,
-                      ),
+                    const SizedBox(height: 16),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                            'Voce Possui ${tasks.length} Tarefas',
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        ElevatedButton(
+                          onPressed: () => showOptionsClean(),
+                          child: const Text(
+                            'Limpar Tudo',
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),
-                const SizedBox(height: 16),
-                Flexible(
-                  child: ListView(
-                    shrinkWrap: true,
-                    scrollDirection: Axis.vertical,
-                    addAutomaticKeepAlives: false,
-                    children: [
-                      for (TaskDescription task in tasks)
-                        TaskListItens(
-                          task: task,
-                          deleteTask: deleteTask,
-                        ),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 16),
-                Row(
-                  children: [
-                    Expanded(
-                      child: Text(
-                        'Voce Possui ${tasks.length} Tarefas',
-                      ),
-                    ),
-                    const SizedBox(width: 8),
-                    ElevatedButton(
-                      onPressed: () => showOptionsClean(),
-                      child: const Text(
-                        'Limpar Tudo',
-                      ),
-                    ),
-                  ],
-                ),
-              ],
+              ),
             ),
           ),
         ),

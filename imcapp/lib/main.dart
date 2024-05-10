@@ -130,12 +130,14 @@ class _HomeState extends State<Home> {
   }
 
   void calculateButton() {
+    
     setState(() {
+
       double weight = double.parse(weightController.text);
       double height = double.parse(heightController.text) / 100;
       double imc = weight / (height * height);
-      bool underweight = imc >= 18.6 && imc <= 24.9;
-      bool idealweight = imc >= 24.9 && imc <= 29.9;
+      bool underweight      = imc >= 18.6 && imc <= 24.9;
+      bool idealweight      = imc >= 24.9 && imc <= 29.9;
       bool overweightGrade1 = imc >= 29.9 && imc <= 34.9;
       bool overweightGrade2 = imc >= 34.9 && imc <= 39.9;
 
