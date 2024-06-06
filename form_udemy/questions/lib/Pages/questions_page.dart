@@ -10,10 +10,10 @@ class QuizPage extends StatefulWidget {
 }
 
 class _QuizPageState extends State<QuizPage> {
-  int selectQuestions = 0;
-  var totalScore = 0;
+  int selectedQuestion = 0;
+  int totalScore = 0;
 
-  final List<Map<String,Object>> questions = const [
+  final List<Map<String, Object>> questions = const [
     {
       'question': 'Qual é o nome completo do Harry?',
       'responses': [
@@ -63,19 +63,25 @@ class _QuizPageState extends State<QuizPage> {
         {'alternative': 'Espada de Godric', 'score': 0},
         {'alternative': 'Espada de Merlin', 'score': 0},
       ],
-    }
+    },
   ];
 
-  void response(int pontuationScore) {
+  void respond(int score) {
     setState(() {
-      selectQuestions++;
-      totalScore += pontuationScore;
-      print(totalScore);
+      selectedQuestion++;
+      totalScore += score;
     });
   }
 
-  bool get haveSelectedQuestion {
-    return selectQuestions < questions.length;
+  bool get hasSelectedQuestion {
+    return selectedQuestion < questions.length;
+  }
+
+  void restartQuestionaire(){
+    setState(() {
+      totalScore = 0;
+      selectedQuestion = 0;
+    });
   }
 
   @override
@@ -94,13 +100,13 @@ class _QuizPageState extends State<QuizPage> {
         ),
         backgroundColor: Colors.blue,
       ),
-      body: haveSelectedQuestion
+      body: hasSelectedQuestion
           ? Questionnaire(
               questions: questions,
-              selectedQuestion: selectQuestions,
-              onAnswer: response,
+              selectedQuestion: selectedQuestion,
+              onAnswer: respond,
             )
-          :  Result(),
+          : Result(totalScore,restartQuestionaire), //
     );
   }
 }
