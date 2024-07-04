@@ -1,4 +1,5 @@
 import 'package:finances/pages/transaction_user.dart';
+import 'package:finances/widgets/transaction_form.dart';
 import 'package:flutter/material.dart';
 
 void main() => runApp(FinanceApp());
@@ -32,6 +33,9 @@ class HomePage extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.end,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
+          Card(
+            child:TransactionForm(),
+          ),
           Padding(
             padding: EdgeInsets.all(10),
             child: Text(
